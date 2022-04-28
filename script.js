@@ -14,9 +14,9 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 // const setElements = () => {
-// };
-
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+  // };
+  
+  function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
 
   section.className = 'item';
