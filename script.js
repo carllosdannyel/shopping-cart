@@ -1,5 +1,6 @@
 const sectionItems = document.querySelector('.items');
 const orderedList = document.querySelector('.cart__items');
+const buttonClearCart = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -72,6 +73,13 @@ const getLocalStorage = () => {
     element.addEventListener('click', cartItemClickListener);
   });
 };
+
+const clearAllLis = () => {
+  orderedList.innerHTML = '';
+  localStorage.clear();
+};
+
+buttonClearCart.addEventListener('click', clearAllLis);
 
 window.onload = () => { 
   loadItems();
