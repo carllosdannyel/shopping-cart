@@ -61,8 +61,9 @@ const loadItems = () => {
   .then(({ results }) => {
     results.map(({ id, title, thumbnail, price }) =>
       createProductItemElement({ id, title, thumbnail, price }));
+      document.querySelector('.loading').remove();
     });
-};
+  };
 
 const getLocalStorage = () => {
   const lis = getSavedCartItems('cartItems');
