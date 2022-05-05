@@ -1,16 +1,6 @@
 const sectionItems = document.querySelector('.items');
 const orderedList = document.querySelector('.cart__items');
 
-const saveOnLocalStorage = () => {
-  const carrinho = orderedList.innerHTML;
-  localStorage.setItem('selecionados', carrinho);
-};
-
-const getItemOnLocalStorage = () => {
-  const getOnLocal = localStorage.getItem('selecionados');
-  orderedList.innerHTML = getOnLocal;
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +19,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -46,6 +36,7 @@ const setElements = async (event) => {
   const receiveId = await fetchItem(idElement);
   const allInfos = createCartItemElement(receiveId);
   orderedList.appendChild(allInfos);
+  saveCartItems(orderedList.innerHTML);
 };
   
   function createProductItemElement({ id: sku, title: name, price: salePrice, thumbnail: image }) {
