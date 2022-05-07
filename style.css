@@ -153,15 +153,17 @@ h2 {
   padding: 20px;
 }
 
-li {
-  padding: 10px;
-}
-
-.item__price {
+.item__price, p {
   text-align: center;
   padding: 10px;
   font-weight: 900;
   font-size: 20px;
+}
+
+#input-container {
+  display: flex;
+  text-align: center;
+  margin-right: 25%;
 }
 
 input {

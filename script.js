@@ -2,6 +2,8 @@ const sectionItems = document.querySelector('.items');
 const orderedList = document.querySelector('.cart__items');
 const buttonClearCart = document.querySelector('.empty-cart');
 const total = document.querySelector('.total-price');
+const buttonSearch = document.querySelector('#button-search');
+const inputSearch = document.querySelector('#input-search');
 
 const calculateTotalPrice = () => {
   const lis = document.querySelectorAll('li');
@@ -10,7 +12,7 @@ const calculateTotalPrice = () => {
     const value = li.innerText.split('$')[1];
     result += Number(value);
   });
-  total.innerHTML = result;
+  total.innerHTML = `Preço Total: R$${result.toFixed(2)}`;
 };
 
 function createProductImageElement(imageSource) {
@@ -70,15 +72,6 @@ const setElements = async (event) => {
   sectionItems.appendChild(section);
 }
 
-const loadItems = () => {
-  fetchProducts('computador')
-  .then(({ results }) => {
-    results.map(({ id, title, thumbnail, price }) =>
-      createProductItemElement({ id, title, thumbnail, price }));
-      document.querySelector('.loading').remove();
-    });
-  };
-
 const getLocalStorage = () => {
   const lis = getSavedCartItems('cartItems');
   orderedList.innerHTML = lis;
@@ -90,15 +83,48 @@ const getLocalStorage = () => {
 };
 
 const clearAllLis = () => {
-  total.innerHTML = '';
+  total.innerHTML = `Preço Total: R$${'0.00'}`;
   orderedList.innerHTML = '';
   localStorage.clear();
 };
 
+const loadItens = (param) => {
+  // const inputSearch = document.querySelector('#input-search');
+  inputSearch.value = '';
+  sectionItems.innerHTML = '';
+  fetchProducts(param)
+    .then(({ results }) => {
+    results.forEach(({ id, title, thumbnail, price }) =>
+    createProductItemElement({ id, title, thumbnail, price }));
+  });
+};
+
 buttonClearCart.addEventListener('click', clearAllLis);
 
+buttonSearch.addEventListener('click', () => {
+  if (inputSearch.value === '') {
+    loadItens('computador');
+      }
+  // const inputSearch = document.querySelector('#input-search');
+  let inputValue = inputSearch.value;
+  loadItens(inputValue);
+  inputValue = '';
+});
+
+inputSearch.addEventListener('keypress', (event) => {
+  if (event.keyCode === 13) {
+    if (inputSearch.value === '') {
+      loadItens('computador');
+    }
+  const input = document.querySelector('#input-search');
+  let inputValue = input.value;
+  loadItens(inputValue);
+  inputValue = '';
+}
+});
+
 window.onload = () => { 
-  loadItems();
   getLocalStorage();
+  loadItens('computador');
   calculateTotalPrice();
 };
