@@ -8,9 +8,9 @@ const calculateTotalPrice = () => {
   let result = 0;
   lis.forEach((li) => {
     const value = li.innerText.split('$')[1];
-    result += parseFloat(value);
+    result += Number(value);
   });
-  total.innerHTML = `<h2>Preço Total: R$${result.toFixed(2)}</h2>`;
+  total.innerHTML = result;
 };
 
 function createProductImageElement(imageSource) {
@@ -90,7 +90,7 @@ const getLocalStorage = () => {
 };
 
 const clearAllLis = () => {
-  total.innerHTML = `<h2>Preço Total: R$${'0.00'}</h2>`;
+  total.innerHTML = '';
   orderedList.innerHTML = '';
   localStorage.clear();
 };
