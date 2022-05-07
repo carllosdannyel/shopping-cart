@@ -1,6 +1,17 @@
 const sectionItems = document.querySelector('.items');
 const orderedList = document.querySelector('.cart__items');
 const buttonClearCart = document.querySelector('.empty-cart');
+const total = document.querySelector('.total-price');
+
+const calculateTotalPrice = () => {
+  const lis = document.querySelectorAll('li');
+  let result = 0;
+  lis.forEach((li) => {
+    const value = li.innerText.split('$')[1];
+    result += parseFloat(value);
+  });
+  total.innerHTML = `<h2>Preço Total: R$${result.toFixed(2)}</h2>`;
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -21,6 +32,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  calculateTotalPrice();
   saveCartItems(orderedList.innerHTML);
 }
 
@@ -38,18 +50,20 @@ const setElements = async (event) => {
   const receiveId = await fetchItem(idElement);
   const allInfos = createCartItemElement(receiveId);
   orderedList.appendChild(allInfos);
+  calculateTotalPrice();
   saveCartItems(orderedList.innerHTML);
 };
   
   function createProductItemElement({ id: sku, title: name, price: salePrice, thumbnail: image }) {
   const section = document.createElement('section');
+  const price = salePrice.toFixed(2);
 
   section.className = 'item';
   
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('span', 'item__price', `R$ ${salePrice}`));
+  section.appendChild(createCustomElement('span', 'item__price', `R$ ${price}`));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
     .addEventListener('click', setElements);
   
@@ -76,6 +90,7 @@ const getLocalStorage = () => {
 };
 
 const clearAllLis = () => {
+  total.innerHTML = `<h2>Preço Total: R$${'0.00'}</h2>`;
   orderedList.innerHTML = '';
   localStorage.clear();
 };
@@ -85,4 +100,5 @@ buttonClearCart.addEventListener('click', clearAllLis);
 window.onload = () => { 
   loadItems();
   getLocalStorage();
+  calculateTotalPrice();
 };
