@@ -156,3 +156,14 @@ h2 {
 li {
   padding: 10px;
 }
+
+.item__price {
+  text-align: center;
+  padding: 10px;
+  font-weight: 900;
+  font-size: 20px;
+}
+
+input {
+  text-align: center;
+}
